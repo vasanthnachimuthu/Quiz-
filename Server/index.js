@@ -18,7 +18,7 @@ db.once('open', () => {
     console.log('Connected to MongoDB');
 });
 
-// Schema
+
 const questionSchema = new mongoose.Schema({
     question: String,
     options: [String],
