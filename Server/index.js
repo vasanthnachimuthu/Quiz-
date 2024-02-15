@@ -1,29 +1,25 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(bodyParser.json());
-
-/* MongoDB Connection */
-const mongodbUri = 'mongodb+srv://vasanthnachimuthu:vasanth1234@quiz-app.nag8b45.mongodb.net/?retryWrites=true&w=majority';
-
-mongoose.connect(mongodbUri)
-    .then(() => {
-        console.log('Connected to MongoDB');
-    })
-    .catch(error => {
-        console.error('MongoDB connection error:', error);
-    });
+// MongoDB connection
+const mongodbUri = 'mongodb+srv://vasanthnachimuthu:vasanth1234@quiz-app.nag8b45.mongodb.net/Test?retryWrites=true&w=majority';
+mongoose.connect(mongodbUri);
 
 const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-/* Define Schema and Model */
+db.on('error', (error) => {
+    console.error('MongoDB connection error:', error);
+});
+
+db.once('open', () => {
+    console.log('Connected to MongoDB');
+});
+
+// Schema definition
 const questionSchema = new mongoose.Schema({
-    category: String,
     question: String,
     options: [String],
     correct_answer: String
@@ -31,18 +27,21 @@ const questionSchema = new mongoose.Schema({
 
 const Question = mongoose.model('Question', questionSchema);
 
-/* Example Route */
-app.get('/questions', async (req, res) => {
+// GET endpoint to fetch a single question by ID
+app.get('/api/questions/:id', async (req, res) => {
+    const questionId = req.params.id;
+
     try {
-        const questions = await Question.find();
-        res.json(questions);
+        const question = await Question.findById(questionId);
+        if (!question) {
+            return res.status(404).json({ message: 'Question not found' });
+        }
+        res.json(question);
     } catch (error) {
-        console.error('Error fetching questions:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({ message: error.message });
     }
 });
 
-/* Start Server */
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
