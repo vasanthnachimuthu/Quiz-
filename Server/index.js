@@ -21,7 +21,7 @@ mongoose.connect(mongodbUri)
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-/* Define Schema and Model */
+
 const questionSchema = new mongoose.Schema({
     category: String,
     question: String,
@@ -31,7 +31,7 @@ const questionSchema = new mongoose.Schema({
 
 const Question = mongoose.model('Question', questionSchema);
 
-/* Example Route */
+
 app.get('/questions', async (req, res) => {
     try {
         const questions = await Question.find();
