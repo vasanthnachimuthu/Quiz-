@@ -18,7 +18,7 @@ db.once('open', () => {
     console.log('Connected to MongoDB');
 });
 
-// Schema definition
+// Schema
 const questionSchema = new mongoose.Schema({
     question: String,
     options: [String],
@@ -27,7 +27,7 @@ const questionSchema = new mongoose.Schema({
 
 const Question = mongoose.model('Question', questionSchema);
 
-// GET endpoint to fetch a single question by ID
+// GET  fetch a single question by ID
 app.get('/api/questions/:id', async (req, res) => {
     const questionId = req.params.id;
 
