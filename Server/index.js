@@ -23,7 +23,6 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 
 const questionSchema = new mongoose.Schema({
-    category: String,
     question: String,
     options: [String],
     correct_answer: String
