@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import Button from 'react-bootstrap/Button';
 import Card from '../UIElements/Card';
+import './Button.css';
+
 
 export const Quiz = () => {
     const [quiz, setQuiz] = useState([]);
@@ -25,11 +28,13 @@ export const Quiz = () => {
 
             <div>
                 <Card className="question">
-                    <div className="button-container">
-                        <Button variant="primary" onClick={handlePrevious}>Previous</Button>
-                        <Button variant="primary" onClick={handleNext}>Next</Button>
-                    </div>
+                    <p>Questions</p>
                 </Card>
+                <div className="button-container">
+                    <Button variant="primary" onClick={handlePrevious}>Previous</Button>
+                    <Button variant="primary" onClick={handleNext}>Next</Button>
+                </div>
+
             </div>
 
         </div>
