@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -18,6 +19,7 @@ db.once('open', () => {
     console.log('Connected to MongoDB');
 });
 
+app.use(cors());
 
 const questionSchema = new mongoose.Schema({
     question: String,
@@ -28,19 +30,15 @@ const questionSchema = new mongoose.Schema({
 const Question = mongoose.model('Question', questionSchema);
 
 // GET  fetch a single question by ID
-app.get('/api/questions/:id', async (req, res) => {
-    const questionId = req.params.id;
-
+app.get('/api/questions', async (req, res) => {
     try {
-        const question = await Question.findById(questionId);
-        if (!question) {
-            return res.status(404).json({ message: 'Question not found' });
-        }
-        res.json(question);
+        const questions = await Question.find();
+        res.json(questions);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 });
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
