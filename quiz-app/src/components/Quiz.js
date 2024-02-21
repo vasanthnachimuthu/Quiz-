@@ -24,7 +24,7 @@ export const Quiz = () => {
                 setQuiz(updatedQuiz);
             })
             .catch(error => {
-                console.error('Error fetching questions:', error);
+                console.error('Error fetching questions:', erro);
             });
     }, []);
 
