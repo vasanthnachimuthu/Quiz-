@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import Card from '../UIElements/Card';
 import './Button.css';
 import Question from './Question';
+import fetchQuestions from './api';
 
 
 export const Quiz = () => {
@@ -15,19 +15,9 @@ export const Quiz = () => {
     const [time, setTime] = useState();
 
     useEffect(() => {
-        axios.get('http://localhost:3000/api/questions')
-            .then(response => {
-                const updatedQuiz = response.data.map(q => {
-                    return {
-                        ...q,
-                        options: JSON.parse(q.options)
-                    };
-                });
-                setQuiz(updatedQuiz);
-            })
-            .catch(error => {
-                console.error('Error fetching questions:', error);
-            });
+        fetchQuestions().then(updatedQuiz => {
+            setQuiz(updatedQuiz);
+        });
     }, []);
 
     const handleNext = () => {
