@@ -3,6 +3,7 @@ import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import Card from '../UIElements/Card';
 import './Button.css';
+import Question from './Question';
 
 
 export const Quiz = () => {
@@ -11,6 +12,7 @@ export const Quiz = () => {
     const [selectedOptions, setSelectedOptions] = useState({});
     const [score, setScore] = useState(0);
     const [showScore, setShowScore] = useState(false);
+    const [time, setTime] = useState();
 
     useEffect(() => {
         axios.get('http://localhost:3000/api/questions')
@@ -56,11 +58,11 @@ export const Quiz = () => {
 
     return (
         <div>
-            <div>
-                <Card>
-                    <h1>Quiz</h1>
-                </Card>
-            </div>
+
+            <Card className="Header">
+                <h1>Quiz</h1>
+            </Card>
+
 
             <div>
                 {showScore ? (
@@ -69,36 +71,21 @@ export const Quiz = () => {
                         <p>{score} out of {quiz.length}</p>
                     </Card>
                 ) : (
-                    <Card className="question">
-                        <p>{quiz[currentIndex]?.question}</p>
-                        <div className="options">
-                            {quiz[currentIndex]?.options.map((option, index) => (
-                                <div key={index} className="form-check">
-                                    <input
-                                        className="form-check-input"
-                                        type="radio"
-                                        name="option"
-                                        id={`option${index}`}
-                                        value={option}
-                                        checked={option === selectedOptions[currentIndex]}
-                                        onChange={handleOptionChange}
-                                    />
-                                    <label className="form-check-label" For={`option${index}`}>
-                                        {option}
-                                    </label>
-                                </div>
-                            ))}
-                        </div>
-                    </Card>
+                    <Question
+                        question={quiz[currentIndex]?.question}
+                        options={quiz[currentIndex]?.options || []}
+                        selectedOption={selectedOptions[currentIndex] || ''}
+                        handleOptionChange={handleOptionChange}
+                    />
                 )}
                 <div className="button-container">
                     {!showScore && (
                         <>
-                            <Button variant="btn btn-outline-primary" onClick={handlePrevious} disabled={currentIndex === 0}>Previous</Button>
+                            <Button variant="primary" onClick={handlePrevious} disabled={currentIndex === 0}>Previous</Button>
                             {currentIndex === quiz.length - 1 ? (
-                                <Button variant="btn btn-outline-success" onClick={calculateScore}>Finish</Button>
+                                <Button variant="success" onClick={calculateScore}>Finish</Button>
                             ) : (
-                                <Button variant="btn btn-outline-primary" onClick={handleNext} disabled={selectedOptions[currentIndex] === undefined}>Next</Button>
+                                <Button variant="primary" onClick={handleNext} disabled={selectedOptions[currentIndex] === undefined}>Next</Button>
                             )}
                         </>
                     )}
