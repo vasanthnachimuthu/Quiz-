@@ -66,6 +66,7 @@ export const Quiz = () => {
                         options={quiz[currentIndex]?.options || []}
                         selectedOption={selectedOptions[currentIndex] || ''}
                         handleOptionChange={handleOptionChange}
+                        currentIndex={currentIndex + 1}
                     />
                 )}
                 <div className="button-container">

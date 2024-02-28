@@ -1,10 +1,10 @@
 import React from 'react';
 import Card from '../UIElements/Card';
 
-const Question = ({ question, options, selectedOption, handleOptionChange }) => {
+const Question = ({ question, options, selectedOption, handleOptionChange, currentIndex }) => {
     return (
         <Card className="question">
-            <p>{question}</p>
+            <p>{currentIndex} . {question}</p>
             <div className="options">
                 {options.map((option, index) => (
                     <div key={index} className="form-check">
