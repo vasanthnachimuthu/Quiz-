@@ -15,7 +15,7 @@ export const Quiz = () => {
     const [time, setTime] = useState();
 
     useEffect(() => {
-        fetchQuestions().then(updatedQuiz => {
+        fetchQuestions().then(updatedQuiz => {                     //after fetching all data stored in updated quiz then it sets to quiz
             setQuiz(updatedQuiz);
         });
     }, []);
